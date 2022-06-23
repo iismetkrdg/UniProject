@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Arama Sonuçlar";
+}
+<div class="row">
+    
+    <div class="col-md-3" id="ilan" >
+        <h2>İlan Sonuçları</h2>
+        
+        @foreach (var item in ViewBag.SonucIlan)
+        {
+            <a asp-controller="Ilan" asp-action="Details" asp-route-id="@item.IlanId" class="text-dark nav-link mb-3">@item.Message</a>
+        }
+    </div>
+    
+    <div class="col-md-3" id="forum" >
+        <h2>Forum Sonuçları</h2>
+        @foreach (var item in ViewBag.SonucForum)
+        {
+            <a asp-controller="ForumBaslik" asp-action="Details" asp-route-id="@item.ForumBaslikId" class="text-dark nav-link mb-3">@item.Name</a>
+        }
+    </div>
+
+    <div class="col-md-3" id="sinav">
+        <h2>Sınav Sonuçları</h2>
+        @foreach (var item in ViewBag.SonucSinav)
+        {
+            <a asp-controller="Sınav" asp-action="Details" asp-route-id="@item.SınavId"  class="text-dark nav-link mb-3">@item.Name:@item.DersAdı</a>
+        }
+    </div>
+    <div class="col-md-3" id="not">
+        <h2>Ders Notu Sonuçları</h2>
+        @foreach (var item in ViewBag.SonucDers)
+        {
+            <a asp-controller="DersNotu" asp-action="Details" asp-route-id="@item.DersNotuId"  class="text-dark nav-link mb-3">@item.DersAdı:@item.Konu</a>
+        }
+    </div>
+</div>
+<script>
+    var liste = ["ilan","not","sinav","forum"]
+    for (var i = 0; i < liste.length ; i++)
+    {
+        var a = document.getElementById(liste[i])
+        if(a.children.length<2){
+            a.innerHTML += "<p class='card-text nav-link text-danger'>Sonuç yok</p>"
+        }
+    }
+</script>

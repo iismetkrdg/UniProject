@@ -1,0 +1,47 @@
+@model IEnumerable<EduProject.Models.Duyuru>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DuyuruName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuyuruText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuyuruTarih)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DuyuruName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DuyuruText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DuyuruTarih)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DuyuruId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DuyuruId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DuyuruId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

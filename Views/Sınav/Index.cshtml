@@ -1,0 +1,26 @@
+@model IEnumerable<EduProject.Models.Sınav>
+
+@{
+    ViewData["Title"] = "Eski Sınavlar";
+}
+
+<h1>Eski Sınavlar</h1>
+
+
+
+<div class="row">
+    <p class="text-center h3">
+        <a asp-action="Create" class=" text-warning nav-link">Sınav Paylaş</a>
+    </p>
+    @foreach (var item in Model) {
+        <div class="col-md-3">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <p class="card-title">@Html.DisplayFor(modelItem => item.Name)</p>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.DersAdı)</p>
+                    <p class="card-text"><a target="_blank" href="~/images/@Html.DisplayFor(modelItem => item.FileName)">Belgeye git</a></p>
+                </div>
+            </div>
+        </div>
+    }   
+</div>

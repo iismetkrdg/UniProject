@@ -1,0 +1,43 @@
+@model EduProject.ViewModels.DersNotuCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>DersNotu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data" asp-controller="DersNotu"  asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Konu" class="control-label"></label>
+                <input asp-for="Konu" class="form-control" />
+                <select asp-for="DersAdı" class="custom-select">
+                    @foreach (var item in ViewBag.Dersler)
+                    {
+                        <option value="@item.Name">@item.DersKodu:@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="DersAdı" class="text-danger"></span>
+                <div class="col-md-6">
+                    <p>Dossier: </p>
+                    <input asp-for="FilePath" multiple>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

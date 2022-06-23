@@ -1,0 +1,36 @@
+@model EduProject.Models.Duyuru
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Duyuru</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DuyuruName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DuyuruName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DuyuruText)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DuyuruText)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DuyuruTarih)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DuyuruTarih)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.DuyuruId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

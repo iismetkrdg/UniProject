@@ -1,0 +1,24 @@
+@model IEnumerable<EduProject.Models.DersNotu>
+
+@{
+    ViewData["Title"] = "Ders Notları";
+}
+
+<h1>Ders Notları</h1>
+
+<div class="row">
+    <p class="text-center h3">
+        <a asp-action="Create" class=" text-warning nav-link">Ders Notu Paylaş</a>
+    </p>
+    @foreach (var item in Model) {
+        <div class="col-md-3">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <p class="card-title">@Html.DisplayFor(modelItem => item.DersAdı)</p>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Konu)</p>
+                    <p class="card-text"><a target="_blank" href="~/images/@Html.DisplayFor(modelItem => item.FileName)">Belgeye git</a></p>
+                </div>
+            </div>
+        </div>
+    }   
+</div>

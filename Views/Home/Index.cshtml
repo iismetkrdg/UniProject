@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Anasayfa";
+}
+<div class="row">
+  <div class="col-md-3 mb-3">
+      <h2 class="text-center">Duyurular</h2>
+  @foreach (var item in ViewBag.duyurular)
+  {
+      <div class="card">
+          <div class="card-body">
+              <p class="card-title h4">@item.DuyuruName</p>
+              <p class="card-text"><small>@item.DuyuruText</small></p>
+              <p class="card-text text-muted mt-4">@item.DuyuruTarih</p>
+          </div>
+      </div>
+  }
+  </div>
+  <div class="col-md-9">
+    <div class="card bg-dark text-white">
+      <img class="card-img" src="https://media-exp1.licdn.com/dms/image/C561BAQFAuSU6SPMD2w/company-background_10000/0/1519801682523?e=2147483647&v=beta&t=u7iI2hyGbVgl1Ta-baW87QC05nPWEP3Yv48cRhuHiVs" alt="Card image">
+      <div class="card-img-overlay">
+        <h5 class="card-title h1">Galatasaray Üniversitesi Öğrenci İletişim Portalı</h5>
+        <p class="card-text h5">Bu sayfada ev ilanları, eski sınavlar, GSÜ forum ve ders notlarını bulabilirsiniz.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-9 offset-md-3">
+  <div class="row mt-4">
+    <div class="col-md-6 p-0">
+          <h3 class="text-center">Son Ev İlanları</h3>
+          @foreach (var item in ViewBag._ilanlar)
+          {
+            <div class="card p-2 m-1">
+              
+              <div class="card-body">
+                <a class="nav-link" asp-controller="Ilan" asp-action="Details" asp-route-id="@item.IlanId">
+                  <p class="card-text">Mesaj : @item.Message</p>
+                </a>
+                <p class="card-title text-muted" style="position:absolute; bottom:1%;right:1%;">İletişim : @item.iletisim</p>
+              </div>
+            </div>
+            
+          }
+    </div>
+    <div class="col-md-6 p-0">
+          <h3 class="text-center">Son Forum Konuları</h3>
+          @foreach (var item in ViewBag.forumlar)
+          {
+            <div class="card p-2 m-1">
+              
+                <div class="card-body">
+                  <a class="nav-link" asp-controller="ForumBaslik" asp-action="Details" asp-route-id="@item.ForumBaslikId">
+                    <p class="card-text">@item.Name</p>
+                  </a>
+                  <p class="card-title text-muted" style="position:absolute; bottom:1%;right:1%;">Yazar : @item.Creator</p>
+                </div>
+              
+            </div>
+          }
+    </div>
+  </div>
+</div>

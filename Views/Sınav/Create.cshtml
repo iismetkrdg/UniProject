@@ -1,0 +1,42 @@
+@model EduProject.ViewModels.SınavCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Sınav</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data" asp-controller="Sınav"  asp-action="Create">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <select name="DersAdı" class="custom-select">
+                    @foreach (var item in ViewBag.Dersler)
+                    {
+                        <option value="@item.Name">@item.DersKodu:@item.Name</option>
+                    }
+                </select>
+                <div class="col-md-6">
+                    <p>Dossier: </p>
+                    <input asp-for="FilePath" multiple>
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

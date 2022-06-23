@@ -1,0 +1,22 @@
+@model IEnumerable<EduProject.Models.ForumBaslik>
+
+@{
+    ViewData["Title"] = "Forum";
+}
+<div class="row">
+   
+    <div class="col-md-8 offset-md-2">
+        <div class="row">
+            <p class="text-center h3">
+                <a asp-action="Create" class=" text-warning nav-link">Yeni Konu Aç</a>
+            </p>
+        @foreach (var item in Model.Reverse()) {
+            <div class="position-relative p-3">
+                <a asp-action="Details" asp-route-id="@item.ForumBaslikId" class="text-dark nav-link mb-3">@Html.DisplayFor(modelItem => item.Name)</a>
+                <p class="text-muted position-absolute end-0 bottom-0 m-3">@Html.DisplayFor(modelItem => item.Creator)</p>
+            </div>
+            <hr>
+        }
+        </div>
+    </div>
+</div>

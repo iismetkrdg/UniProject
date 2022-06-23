@@ -1,0 +1,23 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+div > .col-md-3 > a:hover{
+  background-color: rgba(0, 0, 0, 0.097) !important;
+  border: none;
+  border-radius: 3%;
+}

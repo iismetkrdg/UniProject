@@ -1,0 +1,64 @@
+@model IPagedList<EduProject.Models.Ilan>
+
+@using X.PagedList.Web.Common;
+
+
+@{
+    ViewData["Title"] = "Ev İlanları";
+}
+
+<p>
+    <a asp-action="Create" class="nav-link text-success border text-center">Ev ilanı ver!</a>
+</p>
+<div class="row mt-4" style="margin-bottom:11% ;">
+    <div class="col-md-6">
+        <h2 class="mt-2 mb-2">Ev arayanlar</h2>
+        <hr>
+        @foreach (var item in Model.Reverse())
+        {
+            if (@item.Arıyor)
+            {
+                <div class="card mt-2">
+                    <div class="card-body">
+
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.iletisim)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
+                        <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.atCreated)</p>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="col-md-6">
+        <h2 class="mt-2 mb-2">Evini boşaltanlar</h2>
+        <hr>
+        @foreach (var item in Model.Reverse())
+        {
+            if (!@item.Arıyor)
+            {
+                <div class="card mt-2">
+                    <div class="card-body">
+
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.iletisim)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div class="position-absolute start-50 translate-middle bottom-0 mb-5">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index",
+        new
+            {
+                page
+        }),
+        new PagedListRenderOptions
+        {
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" },
+            Display = PagedListDisplayMode.IfNeeded
+
+            })
+</div>
