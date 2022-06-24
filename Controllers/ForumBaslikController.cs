@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EduProject.Models;
+using X.PagedList;
+using X.PagedList.Mvc.Core;
 
 namespace EduProject.Controllers
 {
@@ -19,11 +21,11 @@ namespace EduProject.Controllers
         }
 
         // GET: ForumBaslik
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? page)
         {
-              return _context.ForumBaslik != null ? 
-                          View(await _context.ForumBaslik.ToListAsync()) :
-                          Problem("Entity set 'DbContext.ForumBaslik'  is null.");
+            var pageSize = 10;
+            var pageNumber = page ?? 1;
+            return View(_context.ForumBaslik.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: ForumBaslik/Details/5

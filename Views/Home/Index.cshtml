@@ -6,7 +6,7 @@
       <h2 class="text-center">Duyurular</h2>
   @foreach (var item in ViewBag.duyurular)
   {
-      <div class="card">
+      <div class="card mb-2">
           <div class="card-body">
               <p class="card-title h4">@item.DuyuruName</p>
               <p class="card-text"><small>@item.DuyuruText</small></p>
@@ -36,9 +36,10 @@
               
               <div class="card-body">
                 <a class="nav-link" asp-controller="Ilan" asp-action="Details" asp-route-id="@item.IlanId">
-                  <p class="card-text">Mesaj : @item.Message</p>
+                  <p class="card-text mb-3">Mesaj : @item.Message</p>
                 </a>
                 <p class="card-title text-muted" style="position:absolute; bottom:1%;right:1%;">İletişim : @item.iletisim</p>
+                <p class="card-title text-muted" style="position:absolute; bottom:1%;left:1%;">@item.atCreated</p>
               </div>
             </div>
             
@@ -52,7 +53,7 @@
               
                 <div class="card-body">
                   <a class="nav-link" asp-controller="ForumBaslik" asp-action="Details" asp-route-id="@item.ForumBaslikId">
-                    <p class="card-text">@item.Name</p>
+                    <p class="card-text mb-3">@item.Name</p>
                   </a>
                   <p class="card-title text-muted" style="position:absolute; bottom:1%;right:1%;">Yazar : @item.Creator</p>
                 </div>

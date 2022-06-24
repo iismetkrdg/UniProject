@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EduProject.Models;
 using EduProject.ViewModels;
+using X.PagedList;
+using X.PagedList.Mvc.Core;
 
 namespace EduProject.Controllers
 {
@@ -21,11 +23,11 @@ namespace EduProject.Controllers
         }
 
         // GET: DersNotu
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? page)
         {
-              return _context.DersNotu != null ? 
-                          View(await _context.DersNotu.ToListAsync()) :
-                          Problem("Entity set 'DbContext.DersNotu'  is null.");
+            var pageSize = 20;
+            var pageNumber = page ?? 1;
+            return View(_context.DersNotu.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: DersNotu/Details/5
@@ -81,7 +83,7 @@ namespace EduProject.Controllers
                 _context.Add(NewDersNotu);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("details", new {id = NewDersNotu.DersNotuId});
+                return RedirectToAction("index");
             }
             return View(dersNotu);
         }

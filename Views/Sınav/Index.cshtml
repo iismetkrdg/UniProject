@@ -1,4 +1,6 @@
-@model IEnumerable<EduProject.Models.Sınav>
+@model IPagedList<EduProject.Models.Sınav>
+
+@using X.PagedList.Web.Common;
 
 @{
     ViewData["Title"] = "Eski Sınavlar";
@@ -23,4 +25,19 @@
             </div>
         </div>
     }   
+</div>
+
+<div class="position-absolute start-50 translate-middle bottom-0 mb-5">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index",
+        new
+            {
+                page
+        }),
+        new PagedListRenderOptions
+        {
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" },
+            Display = PagedListDisplayMode.IfNeeded
+
+            })
 </div>

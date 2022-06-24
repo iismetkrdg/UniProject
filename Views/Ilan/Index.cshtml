@@ -7,40 +7,39 @@
     ViewData["Title"] = "Ev İlanları";
 }
 
-<p>
-    <a asp-action="Create" class="nav-link text-success border text-center">Ev ilanı ver!</a>
-</p>
+
 <div class="row mt-4" style="margin-bottom:11% ;">
-    <div class="col-md-6">
-        <h2 class="mt-2 mb-2">Ev arayanlar</h2>
+    <div class="col-md-8 offset-md-2">
+        <p>
+            <a asp-action="Create" class="nav-link text-success border text-center">Ev ilanı ver!</a>
+        </p>
+        <div class="row m-1">
+            <div class="card col-md-6 bg-secondary text-center">Evden Çıkıyor.</div>
+            <div class="card col-md-6 bg-warning text-center">Ev Arıyor.</div>
+        </div>
+        
         <hr>
         @foreach (var item in Model.Reverse())
         {
             if (@item.Arıyor)
             {
-                <div class="card mt-2">
+                
+                <div class="card mt-2 bg-warning " style="--bs-bg-opacity: .5;">
                     <div class="card-body">
-
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.iletisim)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
                         <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.atCreated)</p>
+                        <p class="text-danger">Ev arıyor.</p>        
                     </div>
                 </div>
-            }
-        }
-    </div>
-    <div class="col-md-6">
-        <h2 class="mt-2 mb-2">Evini boşaltanlar</h2>
-        <hr>
-        @foreach (var item in Model.Reverse())
-        {
-            if (!@item.Arıyor)
+            }else
             {
-                <div class="card mt-2">
+                <div class="card mt-2 bg-secondary" style="--bs-bg-opacity: .5;">
                     <div class="card-body">
-
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.iletisim)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
+                        <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.atCreated)</p>
+                        <p class="text-danger">Evden çıkıyor.</p>     
                     </div>
                 </div>
             }

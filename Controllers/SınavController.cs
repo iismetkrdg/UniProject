@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using EduProject.Models;
 using EduProject.ViewModels;
 using Microsoft.AspNetCore.Hosting;
+using X.PagedList;
+
 namespace EduProject.Controllers
 {
     public class SınavController : Controller
@@ -23,11 +25,11 @@ namespace EduProject.Controllers
         }
 
         // GET: Sınav
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? page)
         {
-              return _context.Sınav != null ? 
-                          View(await _context.Sınav.ToListAsync()) :
-                          Problem("Entity set 'DbContext.Sınav'  is null.");
+            var pageSize = 20;
+            var pageNumber = page ?? 1;
+            return View(_context.Sınav.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Sınav/Details/5
@@ -82,7 +84,7 @@ namespace EduProject.Controllers
                 _context.Add(NewSınav);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("details", new {id = NewSınav.SınavId});
+                return RedirectToAction("index");
             }
             return View(sınav);
         }

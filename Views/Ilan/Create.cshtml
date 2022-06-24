@@ -21,11 +21,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label asp-for="Message" class="control-label"></label>
-                        <input asp-for="Message" class="form-control" />
+                        <input asp-for="Message" class="form-control" required/>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="iletisim"></label>
-                        <input asp-for="iletisim" class="form-control">
+                        <input asp-for="iletisim" class="form-control" required>
                     </div>
                 </div>
                 <span asp-validation-for="Message" class="text-danger"></span>
