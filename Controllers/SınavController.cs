@@ -9,6 +9,7 @@ using EduProject.Models;
 using EduProject.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EduProject.Controllers
 {
@@ -90,6 +91,7 @@ namespace EduProject.Controllers
         }
 
         // GET: Sınav/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Sınav == null)

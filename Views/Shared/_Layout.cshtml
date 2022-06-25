@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EduProject.styles.css" asp-append-version="true" />
+
 </head>
 <body>
     <header>
@@ -40,10 +41,71 @@
                         <input class="form-control me-2" name="searchkey" type="search" placeholder="Ara" aria-label="Search">
                         <button class="btn btn-outline-secondary "  type="submit">Ara</button>
                     </form>
+                    
+                    <ul class="navbar-nav">
+                        <li class="nav-item m-2 mt-2">
+                            @if (@User.Claims.FirstOrDefault()!=null)
+                            {
+                                <h6>@User.Claims.First().Value</h6>
+                            }else{
+                                <font title="Misafir kullanıcılar ilan, ders notu vb. paylaşımlar yapamaz.">Misafir Kullanıcı</font>
+                            }
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-secondary-outline m-2" data-toggle="modal" data-target="#basicExampleModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                </svg>
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
     </header>
+    <div class="modal" tabindex="-1" id="basicExampleModal"role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="position: absolute;top: 0;right: 1%;z-index: 10040;overflow: auto;overflow-y: auto;width:70%;height:70%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@if (@User.Claims.FirstOrDefault()!=null)
+                    {
+                        @User.Claims.First().ToString().Split(":")[1]
+                    }else{
+                        <p>Misafir Kullanıcı</p>
+                    }</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.IsInRole("User"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Account/Logout">Çıkış</a>
+                            </li>
+                        }
+                        
+                        @if (!User.IsInRole("User"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Account/Login" >Giriş Yap</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Account/Register">Üye Ol</a>
+                            </li>
+                        }
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
     <div class="container">    
         @RenderBody()
     </div>
@@ -58,5 +120,16 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $(function() {
+
+        $('[data-toggle="modal"]').click(function() {
+            var modalId = $(this).data('target');
+            $(modalId).modal('show');
+
+        });
+
+        });
+    </script>
 </body>
 </html>

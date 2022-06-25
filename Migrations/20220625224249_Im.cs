@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EduProject.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Im : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -90,7 +90,8 @@ namespace EduProject.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Arıyor = table.Column<bool>(type: "INTEGER", nullable: false),
                     Message = table.Column<string>(type: "TEXT", nullable: true),
-                    iletisim = table.Column<string>(type: "TEXT", nullable: true)
+                    iletisim = table.Column<string>(type: "TEXT", nullable: true),
+                    atCreated = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -110,6 +111,21 @@ namespace EduProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sınav", x => x.SınavId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserName = table.Column<string>(type: "TEXT", nullable: true),
+                    Password = table.Column<string>(type: "TEXT", nullable: true),
+                    AtSignUp = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.UserId);
                 });
         }
 
@@ -135,6 +151,9 @@ namespace EduProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sınav");
+
+            migrationBuilder.DropTable(
+                name: "User");
         }
     }
 }

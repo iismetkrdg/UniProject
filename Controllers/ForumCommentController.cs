@@ -48,6 +48,7 @@ namespace EduProject.Controllers
         public IActionResult Create(int id)
         {
             ViewBag.Id = id;
+
             return View();
         }
 
@@ -60,6 +61,7 @@ namespace EduProject.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 _context.Add(forumComment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

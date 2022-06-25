@@ -1,0 +1,24 @@
+@model EduProject.ViewModels.RegisterUserViewModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+}
+
+
+
+<div class="col-md-6 offset-md-3">
+    @if (@ViewBag.Errors!=null)
+    {
+        <div class="alert alert-danger">@ViewBag.Errors</div >
+    }
+    <div class="row">
+        <h3>Giriş Yap</h3>
+        <hr>
+        <form method="post" class="form-group" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewBag.returnurl?">
+            <label class="form-label" asp-for="UserName">Kullanıcı Adı</label>
+            <input class="form-control" asp-for="UserName" type="text">
+            <label class="form-label" asp-for="Password">Şifre</label>
+            <input class="form-control" asp-for="Password" type="password">
+            <input class="btn btn-secondary-outline border mt-3" type="submit" value="Giriş Yap">
+        </form>
+    </div>
+</div>

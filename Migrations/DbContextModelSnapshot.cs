@@ -152,6 +152,26 @@ namespace EduProject.Migrations
 
                     b.ToTable("Sınav");
                 });
+
+            modelBuilder.Entity("EduProject.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("AtSignUp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("User");
+                });
 #pragma warning restore 612, 618
         }
     }

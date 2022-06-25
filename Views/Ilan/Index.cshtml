@@ -10,9 +10,13 @@
 
 <div class="row mt-4" style="margin-bottom:11% ;">
     <div class="col-md-8 offset-md-2">
-        <p>
-            <a asp-action="Create" class="nav-link text-success border text-center">Ev ilanı ver!</a>
-        </p>
+        @if (User.IsInRole("User"))
+        {
+            <p>
+                <a asp-action="Create" class="nav-link text-success border text-center">Ev ilanı ver!</a>
+            </p>
+        }
+        
         <div class="row m-1">
             <div class="card col-md-6 bg-secondary text-center">Evden Çıkıyor.</div>
             <div class="card col-md-6 bg-warning text-center">Ev Arıyor.</div>
@@ -28,7 +32,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.iletisim)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
-                        <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.atCreated)</p>
+                        <p class="text-muted card-text" style="position:absolute ;bottom:1%;right:1%">@Html.DisplayFor(modelItem => item.atCreated)</p>
                         <p class="text-danger">Ev arıyor.</p>        
                     </div>
                 </div>

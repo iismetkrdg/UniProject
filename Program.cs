@@ -1,15 +1,21 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDbContext<DbContext>(options =>
-        options.UseSqlite(builder.Configuration.GetConnectionString("DbContext")));
-}
+
+builder.Services.AddDbContext<DbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DbContext")));
 
 // Add services to the container.
+builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.SlidingExpiration = true;
+        options.AccessDeniedPath = "/Forbidden/";
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,7 +31,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapRazorPages();
+app.MapDefaultControllerRoute();
 
 app.MapControllerRoute(
     name: "default",

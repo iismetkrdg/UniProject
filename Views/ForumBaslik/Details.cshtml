@@ -10,35 +10,42 @@
     </div>
     <div class="row mt-4 mb-3">
         <h5>Cevaplar</h4>
-    @foreach (var item in ViewBag.Yazilar)
+    @if (ViewBag.Yazilar!=null)
     {
-        <div class="card mt-1">
-            <div class="card-body">
-                <p class="card-text">@item.Message</p>
-                <p class="card-text text-muted position-absolute end-0 bottom-0 mb-1 m-3"><small>@item.Creator</small></p>
+        @foreach (var item in ViewBag.Yazilar)
+        {
+            <div class="card mt-1">
+                <div class="card-body">
+                    <p class="card-text">@item.Message</p>
+                    <p class="card-text text-muted position-absolute end-0 bottom-0 mb-1 m-3"><small>@item.Creator</small></p>
+                </div>
             </div>
-        </div>
-    } 
+        } 
+    }
+    
     </div>
    
 </div>
-
-<div class="row mt-2">
-    <div class="col-md-8 offset-md-2">
-        
-        <form asp-action="Details">
-            <div class="text-danger"></div>
-            <div class="form-group">
-                <label for="Creator" class="control-label">Kimsiniz?</label>
-                <input type="text" name="Creator" class="form-control">
-                <label for="Message" class="control-label">Cevabınız</label>
-                <input type="text" name="Message" class="form-control"/>
-                <input name="ForumId" value="@ViewBag.Id" hidden>
-                
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-warning mt-2 mb-4" />
-            </div>
-        </form>
+@if (User.IsInRole("User"))
+{
+    <div class="row mt-2">
+        <div class="col-md-8 offset-md-2">
+            
+            <form asp-action="Details">
+                <div class="text-danger"></div>
+                <div class="form-group">
+                    
+                    <label for="Creator" class="control-label" hidden>Kimsiniz?</label>
+                    <input type="text" hidden name="Creator" value="@ViewBag.Userad" class="form-control">
+                    <label for="Message" class="control-label">Cevabınız</label>
+                    <input type="text" name="Message" class="form-control"/>
+                    <input name="ForumId" value="@ViewBag.Id" hidden>
+                    
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-warning mt-2 mb-4" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+}

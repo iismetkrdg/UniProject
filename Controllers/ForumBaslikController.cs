@@ -29,6 +29,7 @@ namespace EduProject.Controllers
         }
 
         // GET: ForumBaslik/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.ForumBaslik == null)
@@ -45,13 +46,23 @@ namespace EduProject.Controllers
             List<ForumComment> yazilar = _context.ForumComment.Where(x=>x.ForumId==id).ToList();
             ViewBag.Yazilar=yazilar;
             ViewBag.Id = id;
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = _context.User.FirstOrDefault(p=>p.UserName==User.Claims.First().Value);
+                if (user==null)
+                {
+                    return RedirectToAction("index","home");
+                }
+                ViewBag.Userad = user.UserName;
+            }
+            
+            
             return View(forumBaslik);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details([Bind("ForumCommentId,Message,ForumId,Creator")] ForumComment forumComment)
+        public async Task<IActionResult> Details([Bind("Message,ForumId,Creator")] ForumComment forumComment)
         {
-
             if (ModelState.IsValid)
             {
                 _context.Add(forumComment);
@@ -63,6 +74,15 @@ namespace EduProject.Controllers
         // GET: ForumBaslik/Create
         public IActionResult Create()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = _context.User.FirstOrDefault(p=>p.UserName==User.Claims.First().Value);
+                if (user==null)
+                {
+                    return RedirectToAction("index","home");
+                }
+                ViewBag.Userad = user.UserName;
+            }
             return View();
         }
 

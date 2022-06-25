@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using EduProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EduProject.Controllers;
 
@@ -12,15 +13,24 @@ public class HomeController : Controller
     {
         _context = context;
     }
+    
     public IActionResult Index()
     {
         List<Ilan> anailn = _context.Ilan
             .OrderBy(b => -b.IlanId)
-            .ToList().GetRange(0,3);
+            .ToList();
+        if (anailn.Count()<3)
+        {
+            anailn = anailn.GetRange(0,anailn.Count());
+        }
         ViewBag._ilanlar = anailn;
         List<ForumBaslik> forumlar = _context.ForumBaslik
             .OrderBy(b => -b.ForumBaslikId)
-            .ToList().GetRange(0,3);
+            .ToList();
+        if (forumlar.Count()<3)
+        {
+            forumlar = forumlar.GetRange(0,forumlar.Count());
+        }
         ViewBag.forumlar = forumlar;
         List<Duyuru> duyuruana = _context.Duyuru.ToList();
         ViewBag.duyurular = duyuruana;
@@ -65,6 +75,7 @@ public class HomeController : Controller
         ViewBag.SonucDers = sonucdersnotu;
         return View();
     }
+    [Authorize]
     public IActionResult Privacy()
     {
         return View();

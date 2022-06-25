@@ -25,4 +25,8 @@ using EduProject.Models;
         public DbSet<EduProject.Models.Ders> Ders { get; set; }
 
         public DbSet<EduProject.Models.Duyuru> Duyuru { get; set; }
+
+        public DbSet<EduProject.Models.User> User { get; set; }
+
+
     }

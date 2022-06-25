@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduProject.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20220623160546_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220625224249_Im")]
+    partial class Im
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,6 +124,9 @@ namespace EduProject.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("atCreated")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("iletisim")
                         .HasColumnType("TEXT");
 
@@ -150,6 +153,26 @@ namespace EduProject.Migrations
                     b.HasKey("SınavId");
 
                     b.ToTable("Sınav");
+                });
+
+            modelBuilder.Entity("EduProject.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("AtSignUp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }

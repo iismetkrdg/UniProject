@@ -49,6 +49,15 @@ namespace EduProject.Controllers
         // GET: Ilan/Create
         public IActionResult Create()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = _context.User.FirstOrDefault(p=>p.UserName==User.Claims.First().Value);
+                if (user==null)
+                {
+                    return RedirectToAction("index","home");
+                }
+                ViewBag.Userad = user.UserName;
+            }
             return View();
         }
 
