@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EduProject.Models;
 using X.PagedList;
 using X.PagedList.Mvc.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EduProject.Controllers
 {
@@ -59,6 +60,7 @@ namespace EduProject.Controllers
             
             return View(forumBaslik);
         }
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Details([Bind("Message,ForumId,Creator")] ForumComment forumComment)
@@ -101,7 +103,7 @@ namespace EduProject.Controllers
             }
             return View(forumBaslik);
         }
-
+        [Authorize(Roles ="admin")]
         // GET: ForumBaslik/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -122,6 +124,7 @@ namespace EduProject.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles ="admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ForumBaslikId,Name,Creator")] ForumBaslik forumBaslik)
         {
@@ -152,7 +155,7 @@ namespace EduProject.Controllers
             }
             return View(forumBaslik);
         }
-
+        [Authorize(Roles ="admin")]
         // GET: ForumBaslik/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -174,6 +177,7 @@ namespace EduProject.Controllers
         // POST: ForumBaslik/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.ForumBaslik == null)

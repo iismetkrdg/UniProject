@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using X.PagedList;
 
 namespace EduProject.Controllers
 {
@@ -24,6 +25,60 @@ namespace EduProject.Controllers
             _context = context;
         }
 
+
+        
+        public IActionResult Users(int? page)
+        {   
+            if (!User.IsInRole("admin"))
+            {
+                return RedirectToAction("index","home");
+            }
+            var pageSize = 25;
+            var pageNumber = page ?? 1;
+            return View(_context.User.ToPagedList(pageNumber, pageSize));
+        }
+        public IActionResult AddAdmin()
+        {
+            if (!User.IsInRole("admin"))
+            {
+                return RedirectToAction("index","home");
+            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddAdmin(RegisterUserViewModel x)
+        {
+            if (!User.IsInRole("admin"))
+            {
+                return RedirectToAction("index","home");
+            }
+            if (ModelState.IsValid)
+            {
+                if (_context.User.FirstOrDefault(p=>p.UserName==x.UserName)==null)
+                {
+                    User user = new User
+                    {
+                        UserName = x.UserName,
+                        Password = x.Password,
+                        AtSignUp = DateTime.Now,
+                        IsAdmin = true,
+                    };
+                    _context.Add(user);
+                    _context.SaveChanges();
+
+                }else
+                {
+                    ViewBag.Errors = "Kullanıcı adı alınmış.";
+                    return View();
+                }
+            }else
+            {
+                ViewBag.Errors = "Bir hata oluştu";
+                return View();
+            }
+            return View();
+        }
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
@@ -48,7 +103,8 @@ namespace EduProject.Controllers
                     {
                         UserName = x.UserName,
                         Password = x.Password,
-                        AtSignUp = DateTime.Now
+                        AtSignUp = DateTime.Now,
+                        IsAdmin = false
                     };
                     _context.User.Add(reguser);
                     _context.SaveChanges();
@@ -86,7 +142,8 @@ namespace EduProject.Controllers
                     var claims = new List<Claim>
                     {
                         new Claim("username",user.UserName),
-                        new Claim(ClaimTypes.Role,"User"),
+                        new Claim(ClaimTypes.Role,user.IsAdmin==true?"admin":"user"),
+                        new Claim(ClaimTypes.Name,user.UserName),
                     }; 
                     var claimsIdentity = new ClaimsIdentity(
                         claims,CookieAuthenticationDefaults.AuthenticationScheme);

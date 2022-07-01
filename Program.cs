@@ -1,21 +1,24 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql;
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<DbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DbContext")));
+builder.Services.AddDbContext<DbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("DbContext"),ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DbContext"))));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+// builder.Services.AddDefaultIdentity<IdentityUser>()
+//     .AddRoles<IdentityRole>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.ExpireTimeSpan = TimeSpan.FromDays(365);
         options.SlidingExpiration = true;
-        options.AccessDeniedPath = "/Forbidden/";
+        options.AccessDeniedPath = "/account/login";
     });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

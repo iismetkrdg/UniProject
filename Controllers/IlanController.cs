@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EduProject.Models;
 using X.PagedList;
 using X.PagedList.Mvc.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EduProject.Controllers
 {
@@ -49,14 +50,9 @@ namespace EduProject.Controllers
         // GET: Ilan/Create
         public IActionResult Create()
         {
-            if (User.Identity.IsAuthenticated)
+            if (!User.Identity.IsAuthenticated)
             {
-                var user = _context.User.FirstOrDefault(p=>p.UserName==User.Claims.First().Value);
-                if (user==null)
-                {
-                    return RedirectToAction("index","home");
-                }
-                ViewBag.Userad = user.UserName;
+                return RedirectToAction("index","home");
             }
             return View();
         }
@@ -65,19 +61,21 @@ namespace EduProject.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IlanId,Arıyor,Message,iletisim")] Ilan ilan)
         {
             if (ModelState.IsValid)
             {
                 ilan.atCreated=DateTime.Now;
+                ilan.iletisim=User.Identity.Name;
                 _context.Add(ilan);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(ilan);
         }
-
+        [Authorize(Roles ="admin")]
         // GET: Ilan/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -93,7 +91,7 @@ namespace EduProject.Controllers
             }
             return View(ilan);
         }
-
+        [Authorize(Roles ="admin")]
         // POST: Ilan/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -128,7 +126,7 @@ namespace EduProject.Controllers
             }
             return View(ilan);
         }
-
+        [Authorize(Roles ="admin")]
         // GET: Ilan/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -146,7 +144,7 @@ namespace EduProject.Controllers
 
             return View(ilan);
         }
-
+        [Authorize(Roles ="admin")]
         // POST: Ilan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

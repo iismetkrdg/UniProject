@@ -1,0 +1,99 @@
+@model IPagedList<EduProject.Models.User>
+
+@using X.PagedList.Web.Common;
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+
+
+<button class="openbtn btn btn-secondary" style="position:absolute ;left:1%;" onclick="openNav()">&#9776;</button>
+<div class="row">
+    <div id="mySidebar" class="col-md-3" hidden>
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+                <span class="fs-4">Admin Paneli</span>
+            </p>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="~/account/addadmin" class="nav-link active" aria-current="page">
+                        Admin Ekle
+                    </a>
+                </li>
+                <li>
+                    <a href="~/account/register" class="nav-link link-dark">
+                        User Ekle
+                    </a>
+                </li>
+                <li>
+                    <a href="~/duyuru/index" class="nav-link link-dark">
+                        Duyurular
+                    </a>
+                </li>
+                <li>
+                    <a href="~/ders/index" class="nav-link link-dark">
+                        Dersler
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-12" id="main" onclick="closeNav()">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Kayıt Tarihi</th>
+                    <th scope="col">Admin</th>
+                    <th scope="col">Linkler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.UserId</th>
+                        <td>@item.UserName</td>
+                        <td>@item.AtSignUp</td>
+                        <td>@item.IsAdmin</td>
+                        <td>link|link|link</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="position-absolute start-50 translate-middle bottom-0 mb-5">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Users",
+        new
+            {
+                page
+        }),
+        new PagedListRenderOptions
+        {
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" },
+            Display = PagedListDisplayMode.IfNeeded
+
+            })
+    </div>
+</div>
+<script>
+    function openNav() {
+        document.getElementById("mySidebar").hidden=false;
+        document.getElementById("main").classList.remove("col-md-12");
+        document.getElementById("main").classList.add("col-md-9");
+
+    }
+
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav() {
+        document.getElementById("mySidebar").hidden=true;
+        document.getElementById("main").classList.remove("col-md-9");
+        document.getElementById("main").classList.add("col-md-12");
+    }
+</script>

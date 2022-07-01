@@ -32,7 +32,7 @@ namespace EduProject.Controllers
             var pageNumber = page ?? 1;
             return View(_context.Sınav.ToPagedList(pageNumber, pageSize));
         }
-
+        [Authorize]
         // GET: Sınav/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -50,7 +50,7 @@ namespace EduProject.Controllers
 
             return View(sınav);
         }
-
+        [Authorize]
         // GET: Sınav/Create
         public IActionResult Create()
         {
@@ -63,6 +63,7 @@ namespace EduProject.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SınavCreateViewModel sınav)
         {
@@ -71,7 +72,7 @@ namespace EduProject.Controllers
                 string uniquefilename = null;
                 if(sınav.FilePath!=null)
                 {
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath,"images");
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath,"files");
                     uniquefilename = Guid.NewGuid().ToString() + "_" + sınav.FilePath.FileName;
                     string filePath = Path.Combine(uploadsFolder,uniquefilename);
                     sınav.FilePath.CopyTo(new FileStream(filePath,FileMode.Create));
@@ -91,7 +92,7 @@ namespace EduProject.Controllers
         }
 
         // GET: Sınav/Edit/5
-        
+        [Authorize(Roles ="admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Sınav == null)
@@ -114,6 +115,7 @@ namespace EduProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="admin")]
         public async Task<IActionResult> Edit(int id, [Bind("SınavId,Name,DersAdı")] Sınav sınav)
         {
             if (id != sınav.SınavId)
@@ -145,6 +147,7 @@ namespace EduProject.Controllers
         }
 
         // GET: Sınav/Delete/5
+        [Authorize(Roles ="admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Sınav == null)
@@ -163,6 +166,7 @@ namespace EduProject.Controllers
         }
 
         // POST: Sınav/Delete/5
+        [Authorize(Roles ="admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

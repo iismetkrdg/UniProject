@@ -68,7 +68,7 @@ namespace EduProject.Controllers
                 string uniquefilename = null;
                 if(dersNotu.FilePath!=null)
                 {
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath,"images");
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath,"files");
                     uniquefilename = Guid.NewGuid().ToString() + "_" + dersNotu.FilePath.FileName;
                     string filePath = Path.Combine(uploadsFolder,uniquefilename);
                     dersNotu.FilePath.CopyTo(new FileStream(filePath,FileMode.Create));

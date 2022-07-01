@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EduProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EduProject.Controllers
 {
@@ -45,6 +46,7 @@ namespace EduProject.Controllers
         }
 
         // GET: ForumComment/Create
+        
         public IActionResult Create(int id)
         {
             ViewBag.Id = id;
@@ -70,6 +72,7 @@ namespace EduProject.Controllers
         }
 
         // GET: ForumComment/Edit/5
+        [Authorize(Roles ="admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.ForumComment == null)
@@ -89,6 +92,7 @@ namespace EduProject.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles ="admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ForumCommentId,Message")] ForumComment forumComment)
         {
@@ -119,7 +123,7 @@ namespace EduProject.Controllers
             }
             return View(forumComment);
         }
-
+        [Authorize(Roles ="admin")]
         // GET: ForumComment/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -137,7 +141,7 @@ namespace EduProject.Controllers
 
             return View(forumComment);
         }
-
+        [Authorize(Roles ="admin")]
         // POST: ForumComment/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

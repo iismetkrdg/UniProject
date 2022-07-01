@@ -4,11 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - EduProject</title>
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="~/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EduProject.styles.css" asp-append-version="true" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <meta name="google-site-verification" content="XPw_qQIBtOG3CbgmKLRMYaYN-9-dBkrueGqku2LnZTY" />
+    
 </head>
 <body>
     <header>
@@ -44,7 +46,7 @@
                     
                     <ul class="navbar-nav">
                         <li class="nav-item m-2 mt-2">
-                            @if (@User.Claims.FirstOrDefault()!=null)
+                            @if (@User.Identity.Name!=null)
                             {
                                 <h6>@User.Claims.First().Value</h6>
                             }else{
@@ -70,9 +72,9 @@
         <div class="modal-dialog" style="position: absolute;top: 0;right: 1%;z-index: 10040;overflow: auto;overflow-y: auto;width:70%;height:70%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">@if (@User.Claims.FirstOrDefault()!=null)
+                    <h5 class="modal-title">@if (@User.Identity.Name!=null)
                     {
-                        @User.Claims.First().ToString().Split(":")[1]
+                        @User.Identity.Name
                     }else{
                         <p>Misafir Kullanıcı</p>
                     }</h5>
@@ -80,14 +82,21 @@
                 </div>
                 <div class="modal-body">
                     <ul class="navbar-nav ms-auto">
-                        @if (User.IsInRole("User"))
+                        @if (User.Identity.IsAuthenticated)
                         {
+                            
+                            @if (User.IsInRole("admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="/Account/Users">Admin Paneli</a>
+                                </li>
+                            }
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/Account/Logout">Çıkış</a>
                             </li>
                         }
                         
-                        @if (!User.IsInRole("User"))
+                        @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/Account/Login" >Giriş Yap</a>

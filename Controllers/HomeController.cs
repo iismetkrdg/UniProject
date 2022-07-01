@@ -42,32 +42,21 @@ public class HomeController : Controller
         
         List<Ilan> sonucilan = _context.Ilan
             .Where(p=>p.Message.ToLower().Contains(searchkey.ToLower()))
-            .ToList().GetRange(0,(_context.Ilan
-            .Where(p=>p.Message.ToLower().Contains(searchkey.ToLower()))
-            .ToList().Count())>10?10:_context.Ilan
-            .Where(p=>p.Message.ToLower().Contains(searchkey.ToLower()))
-            .ToList().Count());
+            .ToList();
+            sonucilan = sonucilan.Count()<=10?sonucilan:sonucilan.GetRange(0,sonucilan.Count());
         List<ForumBaslik> sonucforum = _context.ForumBaslik
             .Where(p=>p.Name.ToLower().Contains(searchkey.ToLower()) || p.Creator.ToLower().Contains(searchkey.ToLower()))
-            .ToList().GetRange(0,(_context.ForumBaslik
-            .Where(p=>p.Name.ToLower().Contains(searchkey.ToLower()) || p.Creator.ToLower().Contains(searchkey.ToLower()))
-            .ToList().Count())>10?10:_context.ForumBaslik
-            .Where(p=>p.Name.ToLower().Contains(searchkey.ToLower()) || p.Creator.ToLower().Contains(searchkey.ToLower()))
-            .ToList().Count());
+            .ToList();
+            sonucforum = sonucforum.Count()<=10?sonucforum:sonucforum.GetRange(0,sonucforum.Count());
         List<Sınav> sonucsinav = _context.Sınav
             .Where(p=>p.Name.ToLower().Contains(searchkey.ToLower()) || p.DersAdı.ToLower().Contains(searchkey.ToLower()))
-            .ToList().GetRange(0,(_context.Sınav
-            .Where(p=>p.Name.ToLower().Contains(searchkey.ToLower()) || p.DersAdı.ToLower().Contains(searchkey.ToLower()))
-            .ToList().Count())>10?10:_context.Sınav
-            .Where(p=>p.Name.ToLower().Contains(searchkey.ToLower()) || p.DersAdı.ToLower().Contains(searchkey.ToLower()))
-            .ToList().Count());
+            .ToList();
+            sonucsinav = sonucsinav.Count()<=10?sonucsinav:sonucsinav.GetRange(0,sonucsinav.Count());
+
         List<DersNotu> sonucdersnotu = _context.DersNotu
             .Where(p=>p.DersAdı.ToLower().Contains(searchkey.ToLower()) || p.Konu.ToLower().Contains(searchkey.ToLower()))
-            .ToList().GetRange(0,(_context.DersNotu
-            .Where(p=>p.DersAdı.ToLower().Contains(searchkey.ToLower()) || p.Konu.ToLower().Contains(searchkey.ToLower()))
-            .ToList().Count())>10?10:_context.DersNotu
-            .Where(p=>p.DersAdı.ToLower().Contains(searchkey.ToLower()) || p.Konu.ToLower().Contains(searchkey.ToLower()))
-            .ToList().Count());
+            .ToList();
+            sonucdersnotu = sonucdersnotu.Count()<=10?sonucdersnotu:sonucdersnotu.GetRange(0,sonucdersnotu.Count());
         
         ViewBag.SonucForum = sonucforum;
         ViewBag.SonucSinav = sonucsinav;
@@ -75,7 +64,6 @@ public class HomeController : Controller
         ViewBag.SonucDers = sonucdersnotu;
         return View();
     }
-    [Authorize]
     public IActionResult Privacy()
     {
         return View();

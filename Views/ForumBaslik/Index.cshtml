@@ -9,23 +9,36 @@
    
     <div class="col-md-8 offset-md-2 mb-5">
         <div class="row mb-5">
-            @if (User.IsInRole("User"))
+            @if (User.Identity.IsAuthenticated)
             {
                 <p class="text-center h3">
                     <a asp-action="Create" class=" text-warning nav-link">Yeni Konu Aç</a>
                 </p>
             }
-            
+        
         @foreach (var item in Model.Reverse()) {
             <div class="position-relative p-3">
                 <a asp-action="Details" asp-route-id="@item.ForumBaslikId" class="text-dark nav-link mb-3">@Html.DisplayFor(modelItem => item.Name)</a>
-                <p class="text-muted position-absolute end-0 bottom-0 m-3">@Html.DisplayFor(modelItem => item.Creator)</p>
+                <p class="text-muted position-absolute end-0 bottom-0 m-1 px-1" style="font-size: 12px;">@Html.DisplayFor(modelItem => item.Creator)</p>
+                <a href="mailto:ismet.k3908@gmail.com?subject=@item.Name - @item.ForumBaslikId 'in incelenmesini talep ediyorum.&body=`@item.Name` başlıklı konu beni rahatsız ediyor."><i title="Şikayet et" class="bi bi-flag"></i></a>
+                <div style="position:absolute; right:2%;top:2%;">
+                    <a style="text-decoration:none; color:#34B7F1;" href="https://api.whatsapp.com/send?text=https://@Context.Request.Host/forumbaslik/details/@item.ForumBaslikId">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                    <a style="text-decoration:none ;" href="https://twitter.com/share?text=@item.Name&url=https://@Context.Request.Host/forumbaslik/@item.ForumBaslikId">
+                        <span class="bi bi-twitter"></span>
+                        
+                    </a>
+                </div>
             </div>
             <hr>
         }
         </div>
     </div>
 </div>
+
+
+
 <div class="position-absolute start-50 translate-middle bottom-0 mb-5">
     @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index",
         new

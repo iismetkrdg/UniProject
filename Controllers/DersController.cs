@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EduProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EduProject.Controllers
 {
+    [Authorize(Roles ="admin")]
     public class DersController : Controller
     {
         private readonly DbContext _context;
